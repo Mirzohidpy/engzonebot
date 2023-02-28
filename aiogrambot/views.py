@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from .models import User, Teacher, Level, ExistingStudent, TrialVideos, Answer, Question, LessonOrder
+from .models import User, Teacher, Level, ExistingStudent, TrialVideos, Answer, Question, LessonOrder, PrimeVideo, \
+    PrimeTest, Tests
 from .serializers import UserSerializer, TeacherSerializer, LevelSerializer, ExistingStudentSerializer, \
-    TrialVideosSerializer, QuestionSerializer, AnswerSerializer, LessonOrderSerializer
+    TrialVideosSerializer, QuestionSerializer, AnswerSerializer, \
+    LessonOrderSerializer, PrimeVideoSerializer, PrimeTestSerializer, TestsSerializer
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 
@@ -29,6 +31,11 @@ class LevelList(ListCreateAPIView):
 
 
 class ExistingStudentList(ListCreateAPIView):
+    queryset = ExistingStudent.objects.all()
+    serializer_class = ExistingStudentSerializer
+
+
+class ExistingStudentDetail(RetrieveUpdateDestroyAPIView):
     queryset = ExistingStudent.objects.all()
     serializer_class = ExistingStudentSerializer
 
@@ -66,3 +73,33 @@ class AnswerDetail(RetrieveUpdateDestroyAPIView):
 class LessonOrderList(ListCreateAPIView):
     queryset = LessonOrder.objects.all()
     serializer_class = LessonOrderSerializer
+
+
+class PrimeVideoList(ListCreateAPIView):
+    queryset = PrimeVideo.objects.all()
+    serializer_class = PrimeVideoSerializer
+
+
+class PrimeVideoDetail(RetrieveUpdateDestroyAPIView):
+    queryset = PrimeVideo.objects.all()
+    serializer_class = PrimeVideoSerializer
+
+
+class PrimeTestList(ListCreateAPIView):
+    queryset = PrimeTest.objects.all()
+    serializer_class = PrimeTestSerializer
+
+
+class PrimeTestDetail(RetrieveUpdateDestroyAPIView):
+    queryset = PrimeTest.objects.all()
+    serializer_class = PrimeTestSerializer
+
+
+class TestsList(ListCreateAPIView):
+    queryset = Tests.objects.all()
+    serializer_class = TestsSerializer
+
+
+class TestsDetail(RetrieveUpdateDestroyAPIView):
+    queryset = Tests.objects.all()
+    serializer_class = TestsSerializer

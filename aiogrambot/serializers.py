@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from .models import User, Teacher, Level, ExistingStudent, TrialVideos, Question, Answer, LessonOrder
+from .models import User, Teacher, Level, ExistingStudent, TrialVideos, \
+    Question, Answer, LessonOrder, PrimeVideo, Tests, PrimeTest
 from rest_framework.serializers import ModelSerializer
 
 
@@ -29,6 +30,9 @@ class LevelSerializer(ModelSerializer):
 
 
 class ExistingStudentSerializer(ModelSerializer):
+    teacher = serializers.StringRelatedField()
+    level = serializers.StringRelatedField()
+
     class Meta:
         model = ExistingStudent
         fields = '__all__'
@@ -62,3 +66,32 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'level', 'points', 'answer', 'open_period'
         ]
+
+
+class PrimeVideoSerializer(ModelSerializer):
+    level = serializers.StringRelatedField()
+    teacher = serializers.StringRelatedField()
+    lesson_name = serializers.StringRelatedField()
+
+    class Meta:
+        model = PrimeVideo
+        fields = '__all__'
+
+
+class TestsSerializer(ModelSerializer):
+    level = serializers.StringRelatedField()
+    lesson_name = serializers.StringRelatedField()
+
+    class Meta:
+        model = Tests
+        fields = '__all__'
+
+
+class PrimeTestSerializer(ModelSerializer):
+    level = serializers.StringRelatedField()
+    teacher = serializers.StringRelatedField()
+    lesson_name = serializers.StringRelatedField()
+
+    class Meta:
+        model = PrimeTest
+        fields = '__all__'

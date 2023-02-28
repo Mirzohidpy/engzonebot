@@ -33,6 +33,7 @@ class Level(models.Model):
 
 
 class ExistingStudent(models.Model):
+    chat_id = models.IntegerField(unique=True, blank=True, null=True)
     full_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=100)
     teacher = models.ForeignKey('Teacher', on_delete=models.CASCADE, null=True, blank=True)
@@ -54,6 +55,7 @@ class TrialVideos(models.Model):
                              validators=[
                                  FileExtensionValidator(allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])])
     level = models.ForeignKey('Level', on_delete=models.CASCADE, null=True, blank=True)
+    video_youtube_url = models.CharField(max_length=250)
     lesson_name = models.ForeignKey('LessonOrder', on_delete=models.CASCADE)
     video_file_id = models.CharField(max_length=100, blank=True, null=True)
 
@@ -88,3 +90,54 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.answer
+
+
+class PrimeVideo(models.Model):
+    video_title = models.CharField(max_length=100, blank=True, null=True)
+    video = models.FileField(upload_to='prime-videos/', null=True,
+                             validators=[
+                                 FileExtensionValidator(allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])])
+    level = models.ForeignKey('Level', on_delete=models.CASCADE)
+    video_youtube_url = models.CharField(max_length=250)
+    teacher = models.ForeignKey('Teacher', on_delete=models.CASCADE)
+    lesson_name = models.ForeignKey('LessonOrder', on_delete=models.CASCADE)
+    is_active = models.BooleanField("Is Active", default=True)
+    video_file_id = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return self.video.name
+
+    class Meta:
+        verbose_name = 'Prime Video'
+        verbose_name_plural = 'Prime Videos'
+
+
+class Tests(models.Model):
+    test_title = models.CharField(max_length=100, blank=True, null=True)
+    level = models.ForeignKey('Level', on_delete=models.CASCADE)
+    lesson_name = models.ForeignKey('LessonOrder', on_delete=models.CASCADE)
+    test_link = models.CharField(max_length=100, blank=True, null=True)
+    is_active = models.BooleanField("Is Active", default=True)
+
+    def __str__(self):
+        return self.level.level
+
+    class Meta:
+        verbose_name = 'Test'
+        verbose_name_plural = 'Tests'
+
+
+class PrimeTest(models.Model):
+    test_title = models.CharField(max_length=100, blank=True, null=True)
+    level = models.ForeignKey('Level', on_delete=models.CASCADE)
+    teacher = models.ForeignKey('Teacher', on_delete=models.CASCADE)
+    lesson_name = models.ForeignKey('LessonOrder', on_delete=models.CASCADE)
+    test_link = models.CharField(max_length=100, blank=True, null=True)
+    is_active = models.BooleanField("Is Active", default=True)
+
+    def __str__(self):
+        return self.level.level
+
+    class Meta:
+        verbose_name = 'Prime Test'
+        verbose_name_plural = 'Prime Tests'
